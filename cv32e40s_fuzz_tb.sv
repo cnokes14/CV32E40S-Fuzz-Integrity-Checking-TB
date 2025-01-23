@@ -193,6 +193,8 @@ module cv32e40s_fuzz_tb import cv32e40s_pkg::*;;
         );
 
 initial begin
+    $srandom(1); // Seed
+    $timeformat(-9, 2, " ns", 20);
     clk_i = 1'b0;
     debug_req_i = 1'b0;
     rst_ni = 1'b0;
@@ -248,7 +250,7 @@ initial begin
         #5ns;
         clk_i = ~clk_i;
         if($isunknown(instr_req_o)) begin
-            $display("Got an X in the instruction request! Address: %08x", instr_addr_o);
+            $error("Got an X in the instruction request! Address: %08x at time %0t", instr_addr_o, $time);
         end
         #5ns;
     end
